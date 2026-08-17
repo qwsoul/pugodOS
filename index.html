@@ -77,7 +77,7 @@
             position: absolute;
             width: 450px;
             height: 350px;
-            background: rgba(25px, 15px, 35px, 0.85);
+            background: rgba(25, 15, 35, 0.85);
             backdrop-filter: blur(10px);
             border: 2px solid #8a2be2;
             border-radius: 8px;
@@ -86,6 +86,7 @@
             flex-direction: column;
             overflow: hidden;
             z-index: 10;
+            touch-action: none;
         }
         .window-header {
             background: #8a2be2;
@@ -142,6 +143,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            padding: 10px;
         }
         .terminal-output {
             flex: 1;
@@ -156,6 +158,7 @@
         .terminal-prefix {
             color: #8a2be2;
             margin-right: 5px;
+            white-space: nowrap;
         }
         .terminal-input {
             background: transparent;
@@ -206,6 +209,36 @@
             font-size: 14px;
             box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
         }
+
+        /* Адаптив для мобилок и планшетов */
+        @media (max-width: 600px) {
+            .window {
+                width: 90% !important;
+                max-width: 360px;
+                height: 300px !important;
+                left: 5% !important;
+            }
+            #desktop {
+                gap: 10px;
+                padding: 10px;
+            }
+            .shortcut {
+                width: 75px;
+                height: 85px;
+            }
+            .shortcut-icon {
+                font-size: 32px;
+            }
+            .shortcut-label {
+                font-size: 11px;
+            }
+            .terminal-prefix {
+                font-size: 12px;
+            }
+            .terminal-input {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body class="theme-pugod">
@@ -247,7 +280,7 @@
                     <div class="terminal-output" id="term-out">[пугодОС v1.0]: Система загружена. Напиши 'help' для списка команд.</div>
                     <div class="terminal-input-row">
                         <span class="terminal-prefix">шляпа@pugod_os:~$</span>
-                        <input type="text" class="terminal-input" id="term-in" onkeydown="handleTerminal(event)" autofocus>
+                        <input type="text" class="terminal-input" id="term-in" onkeydown="handleTerminal(event)">
                     </div>
                 </div>
             </div>
@@ -272,28 +305,29 @@
     <div id="taskbar">
         <div class="start-button">🎩 ПУГОД</div>
     </div>
-
-    <script>
+        <script>
         // Логика открытия и закрытия окон
         function openWindow(id) {
             const win = document.getElementById('win-' + id);
             win.style.display = 'flex';
-            // Выносим открытое окно на передний план
             document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
             win.style.zIndex = 100;
+            if (id === 'terminal') {
+                setTimeout(() => document.getElementById('term-in').focus(), 50);
+            }
         }
 
         function closeWindow(id) {
             document.getElementById('win-' + id).style.display = 'none';
         }
 
-        // Автосохранение заметок
+        // Автосохранение заметок в локальную память браузера
         function saveNotes() {
             const text = document.getElementById('notepad-text').value;
             localStorage.setItem('pugod_notes', text);
         }
 
-        // Загрузка заметок при старте
+        // Загрузка сохраненных заметок при открытии страницы
         window.onload = function() {
             const savedText = localStorage.getItem('pugod_notes');
             if(savedText) {
@@ -301,15 +335,15 @@
             }
         }
 
-        // Смена тем
+        // Смена фоновых тем
         function changeTheme(themeName) {
             document.body.className = themeName;
         }
 
-        // Логика Терминала
+        // Логика работы Терминала
         function handleTerminal(e) {
-            if (e.key === 'Enter') {                
-              const input = document.getElementById('term-in');
+            if (e.key === 'Enter') {
+                const input = document.getElementById('term-in');
                 const output = document.getElementById('term-out');
                 const cmd = input.value.trim().toLowerCase();
                 
@@ -328,38 +362,63 @@
                 }
 
                 input.value = '';
-                output.scrollTop = output.scrollHeight; // Скролл вниз
+                output.scrollTop = output.scrollHeight; 
             }
         }
 
-        // Логика Драг-энд-дропа (перетаскивание окон мышкой)
+        // Универсальная логика перетаскивания (Мышь на ПК + Сенсор/Тач на смартфонах)
         document.querySelectorAll('.window-header').forEach(header => {
-            header.onmousedown = function(e) {
+            header.addEventListener('mousedown', startDrag);
+            header.addEventListener('touchstart', startDrag, { passive: false });
+
+            function startDrag(e) {
                 const win = header.parentElement;
                 
-                // На передний план при клике
                 document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
                 win.style.zIndex = 100;
 
-                let shiftX = e.clientX - win.getBoundingClientRect().left;
-                let shiftY = e.clientY - win.getBoundingClientRect().top;
+                const isTouch = e.type === 'touchstart';
+                const clientX = isTouch ? e.touches[clientX] : e.clientX;
+                const clientY = isTouch ? e.touches[clientY] : e.clientY;
 
-                function moveAt(clientX, clientY) {
-                    win.style.left = clientX - shiftX + 'px';
-                    win.style.top = clientY - shiftY + 'px';
+                // Для тач-событий координаты лежат внутри массива touches
+                const actualX = isTouch ? e.touches[0].clientX : clientX;
+                const actualY = isTouch ? e.touches[0].clientY : clientY;
+
+                let shiftX = actualX - win.getBoundingClientRect().left;
+                let shiftY = actualY - win.getBoundingClientRect().top;
+
+                if (isTouch) e.preventDefault(); 
+
+                function moveAt(currentX, currentY) {
+                    let newTop = currentY - shiftY;
+                    let newLeft = currentX - shiftX;
+                    if (newTop < 0) newTop = 0;
+                    
+                    win.style.left = newLeft + 'px';
+                    win.style.top = newTop + 'px';
                 }
 
-                function onMouseMove(e) {
-                    moveAt(e.clientX, e.clientY);
+                function onMove(moveEvent) {
+                    const moveX = isTouch ? moveEvent.touches[0].clientX : moveEvent.clientX;
+                    const moveY = isTouch ? moveEvent.touches[0].clientY : moveEvent.clientY;
+                    moveAt(moveX, moveY);
                 }
 
-                document.addEventListener('mousemove', onMouseMove);
-
-                document.onmouseup = function() {
-                    document.removeEventListener('mousemove', onMouseMove);
-                    document.onmouseup = null;
-                };
-            };
+                if (isTouch) {
+                    document.addEventListener('touchmove', onMove, { passive: false });
+                    document.addEventListener('touchend', function onTouchEnd() {
+                        document.removeEventListener('touchmove', onMove);
+                        document.removeEventListener('touchend', onTouchEnd);
+                    });
+                } else {
+                    document.addEventListener('mousemove', onMove);
+                    document.onmouseup = function() {
+                        document.removeEventListener('mousemove', onMove);
+                        document.onmouseup = null;
+                    };
+                }
+            }
 
             header.ondragstart = function() {
                 return false;
@@ -368,3 +427,4 @@
     </script>
 </body>
 </html>
+
