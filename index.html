@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pugodOS v1.0 — Шляпная Операционная Система</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #1e122b;
+            transition: background 0.5s ease;
+        }
+
+        /* Темы рабочего стола */
+        .theme-pugod {
+            background: linear-gradient(135deg, #2c1654 0%, #12072b 100%);
+        }
+        .theme-shlyapa {
+            background: radial-gradient(circle, #4a154b 0%, #1a051d 100%);
+        }
+        .theme-zakviel {
+            background: linear-gradient(45deg, #112233 0%, #050b11 100%);
+        }
+
+        /* Рабочий стол */
+        #desktop {
+            width: 100%;
+            height: calc(100% - 50px);
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        /* Ярлыки */
+        .shortcut {
+            width: 90px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .shortcut:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .shortcut-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+        .shortcut-label {
+            color: #fff;
+            font-size: 13px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Окна */
+        .window {
+            position: absolute;
+            width: 450px;
+            height: 350px;
+            background: rgba(25px, 15px, 35px, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid #8a2be2;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .window-header {
+            background: #8a2be2;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            font-weight: bold;
+        }
+        .window-title {
+            font-size: 14px;
+        }
+        .window-close {
+            background: #ff4d4d;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+        }
+        .window-close:hover {
+            background: #ff3333;
+        }
+        .window-content {
+            flex: 1;
+            padding: 15px;
+            color: white;
+            overflow-y: auto;
+        }
+
+        /* Блокнот */
+        .notepad-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            resize: none;
+            outline: none;
+        }
+
+        /* Терминал */
+        .terminal-body {
+            background: #000;
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ff00;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+        }
+        .terminal-prefix {
+            color: #8a2be2;
+            margin-right: 5px;
+        }
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            flex: 1;
+            outline: none;
+        }
+
+        /* Настройки */
+        .settings-btn {
+            background: #8a2be2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .settings-btn:hover {
+            background: #a044ff;
+        }
+
+        /* Панель задач */
+        #taskbar {
+            width: 100%;
+            height: 50px;
+            background: rgba(15, 5, 25, 0.9);
+            border-top: 1px solid #8a2be2;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: absolute;
+            bottom: 0;
+            z-index: 9999;
+        }
+        .start-button {
+            background: linear-gradient(45deg, #8a2be2, #4a154b);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+    </style>
+</head>
+<body class="theme-pugod">
+
+    <div id="desktop">
+        <!-- Ярлыки приложений -->
+        <div class="shortcut" onclick="openWindow('notepad')">
+            <div class="shortcut-icon">📝</div>
+            <div class="shortcut-label">Заметки.txt</div>
+        </div>
+        <div class="shortcut" onclick="openWindow('terminal')">
+            <div class="shortcut-icon">💻</div>
+            <div class="shortcut-label">Краш_Заквиеля.exe</div>
+        </div>
+        <div class="shortcut" onclick="openWindow('settings')">
+            <div class="shortcut-icon">⚙️</div>
+            <div class="shortcut-label">Настройки</div>
+        </div>
+
+        <!-- Окно: Заметки -->
+        <div id="win-notepad" class="window" style="display:none; top:100px; left:150px;">
+            <div class="window-header">
+                <span class="window-title">📝 Блокнот Пугода</span>
+                <button class="window-close" onclick="closeWindow('notepad')">×</button>
+            </div>
+            <div class="window-content">
+                <textarea class="notepad-textarea" id="notepad-text" placeholder="Напиши тут план по краже пакетов..." oninput="saveNotes()"></textarea>
+            </div>
+        </div>
+
+        <!-- Окно: Терминал -->
+        <div id="win-terminal" class="window" style="display:none; top:150px; left:250px;">
+            <div class="window-header">
+                <span class="window-title">💻 Консоль шпиона (шляпная)</span>
+                <button class="window-close" onclick="closeWindow('terminal')">×</button>
+            </div>
+            <div class="window-content" style="padding: 0;">
+                <div class="terminal-body">
+                    <div class="terminal-output" id="term-out">[пугодОС v1.0]: Система загружена. Напиши 'help' для списка команд.</div>
+                    <div class="terminal-input-row">
+                        <span class="terminal-prefix">шляпа@pugod_os:~$</span>
+                        <input type="text" class="terminal-input" id="term-in" onkeydown="handleTerminal(event)" autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Окно: Настройки -->
+        <div id="win-settings" class="window" style="display:none; top:80px; left:40px;">
+            <div class="window-header">
+                <span class="window-title">⚙️ Настройки ОС</span>
+                <button class="window-close" onclick="closeWindow('settings')">×</button>
+            </div>
+            <div class="window-content">
+                <h3>Сменить обои:</h3>
+                <button class="settings-btn" onclick="changeTheme('theme-pugod')">Классический Пугод</button>
+                <button class="settings-btn" onclick="changeTheme('theme-shlyapa')">Шляпный Неон</button>
+                <button class="settings-btn" onclick="changeTheme('theme-zakviel')">Скрытный Заквиель</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Панель задач -->
+    <div id="taskbar">
+        <div class="start-button">🎩 ПУГОД</div>
+    </div>
+
+    <script>
+        // Логика открытия и закрытия окон
+        function openWindow(id) {
+            const win = document.getElementById('win-' + id);
+            win.style.display = 'flex';
+            // Выносим открытое окно на передний план
+            document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+            win.style.zIndex = 100;
+        }
+
+        function closeWindow(id) {
+            document.getElementById('win-' + id).style.display = 'none';
+        }
+
+        // Автосохранение заметок
+        function saveNotes() {
+            const text = document.getElementById('notepad-text').value;
+            localStorage.setItem('pugod_notes', text);
+        }
+
+        // Загрузка заметок при старте
+        window.onload = function() {
+            const savedText = localStorage.getItem('pugod_notes');
+            if(savedText) {
+                document.getElementById('notepad-text').value = savedText;
+            }
+        }
+
+        // Смена тем
+        function changeTheme(themeName) {
+            document.body.className = themeName;
+        }
+
+        // Логика Терминала
+        function handleTerminal(e) {
+            if (e.key === 'Enter') {                
+              const input = document.getElementById('term-in');
+                const output = document.getElementById('term-out');
+                const cmd = input.value.trim().toLowerCase();
+                
+                output.innerHTML += `\nшляпа@pugod_os:~$ ${input.value}`;
+
+                if (cmd === 'help') {
+                    output.innerHTML += `\nДоступные команды:\n  shlyapa — проверить состояние цилиндра\n  bag     — проверить запасы пакетов\n  clear   — очистить консоль`;
+                } else if (cmd === 'shlyapa') {
+                    output.innerHTML += `\n[Система]: Шляпа зафиксирована на голове. Уровень харизмы: 1000%.`;
+                } else if (cmd === 'bag') {
+                    output.innerHTML += `\n[Система]: В инвентаре обнаружено 64 стака пакетов. Заквиель пытается их украсть!`;
+                } else if (cmd === 'clear') {
+                    output.innerHTML = `[пугодОС v1.0]: Консоль очищена.`;
+                } else if (cmd !== '') {
+                    output.innerHTML += `\nОшибка: команда '${cmd}' не найдена. Напиши 'help'.`;
+                }
+
+                input.value = '';
+                output.scrollTop = output.scrollHeight; // Скролл вниз
+            }
+        }
+
+        // Логика Драг-энд-дропа (перетаскивание окон мышкой)
+        document.querySelectorAll('.window-header').forEach(header => {
+            header.onmousedown = function(e) {
+                const win = header.parentElement;
+                
+                // На передний план при клике
+                document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+                win.style.zIndex = 100;
+
+                let shiftX = e.clientX - win.getBoundingClientRect().left;
+                let shiftY = e.clientY - win.getBoundingClientRect().top;
+
+                function moveAt(clientX, clientY) {
+                    win.style.left = clientX - shiftX + 'px';
+                    win.style.top = clientY - shiftY + 'px';
+                }
+
+                function onMouseMove(e) {
+                    moveAt(e.clientX, e.clientY);
+                }
+
+                document.addEventListener('mousemove', onMouseMove);
+
+                document.onmouseup = function() {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.onmouseup = null;
+                };
+            };
+
+            header.ondragstart = function() {
+                return false;
+            };
+        });
+    </script>
+</body>
+</html>
