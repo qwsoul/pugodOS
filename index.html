@@ -12,7 +12,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             user-select: none;
         }
-
         body, html {
             width: 100%;
             height: 100%;
@@ -20,19 +19,9 @@
             background-color: #1e122b;
             transition: background 0.5s ease;
         }
-
-        /* Темы рабочего стола */
-        .theme-pugod {
-            background: linear-gradient(135deg, #2c1654 0%, #12072b 100%);
-        }
-        .theme-shlyapa {
-            background: radial-gradient(circle, #4a154b 0%, #1a051d 100%);
-        }
-        .theme-zakviel {
-            background: linear-gradient(45deg, #112233 0%, #050b11 100%);
-        }
-
-        /* Рабочий стол */
+        .theme-pugod { background: linear-gradient(135deg, #2c1654 0%, #12072b 100%); }
+        .theme-shlyapa { background: radial-gradient(circle, #4a154b 0%, #1a051d 100%); }
+        .theme-zakviel { background: linear-gradient(45deg, #112233 0%, #050b11 100%); }
         #desktop {
             width: 100%;
             height: calc(100% - 50px);
@@ -44,8 +33,6 @@
             align-content: flex-start;
             flex-wrap: wrap;
         }
-
-        /* Ярлыки */
         .shortcut {
             width: 90px;
             height: 100px;
@@ -58,21 +45,9 @@
             border-radius: 8px;
             transition: background 0.2s;
         }
-        .shortcut:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .shortcut-icon {
-            font-size: 40px;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
-        }
-        .shortcut-label {
-            color: #fff;
-            font-size: 13px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-
-        /* Окна */
+        .shortcut:hover { background: rgba(255, 255, 255, 0.1); }
+        .shortcut-icon { font-size: 40px; margin-bottom: 8px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        .shortcut-label { color: #fff; font-size: 13px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
         .window {
             position: absolute;
             width: 450px;
@@ -98,153 +73,39 @@
             cursor: move;
             font-weight: bold;
         }
-        .window-title {
-            font-size: 14px;
-        }
+        .window-title { font-size: 14px; }
         .window-close {
-            background: #ff4d4d;
-            border: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-            line-height: 20px;
-            text-align: center;
+            background: #ff4d4d; border: none; width: 20px; height: 20px;
+            border-radius: 50%; color: white; cursor: pointer; font-size: 12px;
+            line-height: 20px; text-align: center;
         }
-        .window-close:hover {
-            background: #ff3333;
-        }
-        .window-content {
-            flex: 1;
-            padding: 15px;
-            color: white;
-            overflow-y: auto;
-        }
-
-        /* Блокнот */
-        .notepad-textarea {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 15px;
-            resize: none;
-            outline: none;
-        }
-
-        /* Терминал */
-        .terminal-body {
-            background: #000;
-            font-family: 'Courier New', Courier, monospace;
-            color: #00ff00;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-        }
-        .terminal-output {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-        }
-        .terminal-input-row {
-            display: flex;
-            align-items: center;
-        }
-        .terminal-prefix {
-            color: #8a2be2;
-            margin-right: 5px;
-            white-space: nowrap;
-        }
-        .terminal-input {
-            background: transparent;
-            border: none;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            flex: 1;
-            outline: none;
-        }
-
-        /* Настройки */
-        .settings-btn {
-            background: #8a2be2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        .settings-btn:hover {
-            background: #a044ff;
-        }
-
-        /* Панель задач */
-        #taskbar {
-            width: 100%;
-            height: 50px;
-            background: rgba(15, 5, 25, 0.9);
-            border-top: 1px solid #8a2be2;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            position: absolute;
-            bottom: 0;
-            z-index: 9999;
-        }
-        .start-button {
-            background: linear-gradient(45deg, #8a2be2, #4a154b);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-        }
-
-        /* Адаптив для мобилок и планшетов */
+        .window-close:hover { background: #ff3333; }
+        .window-content { flex: 1; padding: 15px; color: white; overflow-y: auto; }
+        .notepad-textarea { width: 100%; height: 100%; background: transparent; border: none; color: #fff; font-size: 15px; resize: none; outline: none; }
+        .terminal-body { background: #000; font-family: 'Courier New', Courier, monospace; color: #00ff00; height: 100%; display: flex; flex-direction: column; padding: 10px; }
+        .terminal-output { flex: 1; overflow-y: auto; margin-bottom: 10px; white-space: pre-wrap; }
+        .terminal-input-row { display: flex; align-items: center; }
+        .terminal-prefix { color: #8a2be2; margin-right: 5px; white-space: nowrap; }
+        .terminal-input { background: transparent; border: none; color: #00ff00; font-family: 'Courier New', Courier, monospace; font-size: 14px; flex: 1; outline: none; }
+        .settings-btn { background: #8a2be2; color: white; border: none; padding: 10px 20px; margin: 10px 0; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.2s; }
+        .settings-btn:hover { background: #a044ff; }
+        #taskbar { width: 100%; height: 50px; background: rgba(15, 5, 25, 0.9); border-top: 1px solid #8a2be2; display: flex; align-items: center; padding: 0 20px; position: absolute; bottom: 0; z-index: 9999; }
+        .start-button { background: linear-gradient(45deg, #8a2be2, #4a154b); color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 14px; box-shadow: 0 0 10px rgba(138, 43, 226, 0.5); cursor: pointer; }
+        #start-menu { position: absolute; bottom: 60px; left: 20px; width: 250px; background: rgba(25, 15, 35, 0.95); border: 2px solid #8a2be2; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: none; flex-direction: column; padding: 10px; z-index: 10000; }
+        .start-menu-item { padding: 10px; color: white; cursor: pointer; border-radius: 5px; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .start-menu-item:hover { background: #8a2be2; }
         @media (max-width: 600px) {
-            .window {
-                width: 90% !important;
-                max-width: 360px;
-                height: 300px !important;
-                left: 5% !important;
-            }
-            #desktop {
-                gap: 10px;
-                padding: 10px;
-            }
-            .shortcut {
-                width: 75px;
-                height: 85px;
-            }
-            .shortcut-icon {
-                font-size: 32px;
-            }
-            .shortcut-label {
-                font-size: 11px;
-            }
-            .terminal-prefix {
-                font-size: 12px;
-            }
-            .terminal-input {
-                font-size: 12px;
-            }
+            .window { width: 90% !important; max-width: 360px; height: 300px !important; left: 5% !important; }
+            #desktop { gap: 10px; padding: 10px; }
+            .shortcut { width: 75px; height: 85px; }
+            .shortcut-icon { font-size: 32px; }
+            .shortcut-label { font-size: 11px; }
+            .terminal-prefix, .terminal-input { font-size: 12px; }
         }
     </style>
 </head>
-<body class="theme-pugod">
-
+    <body class="theme-pugod">
     <div id="desktop">
-        <!-- Ярлыки приложений -->
         <div class="shortcut" onclick="openWindow('notepad')">
             <div class="shortcut-icon">📝</div>
             <div class="shortcut-label">Заметки.txt</div>
@@ -277,7 +138,7 @@
             </div>
             <div class="window-content" style="padding: 0;">
                 <div class="terminal-body">
-                    <div class="terminal-output" id="term-out">[пугодОС v1.0]: Система загружена. Напиши 'help' для списка команд.</div>
+                    <div class="terminal-output" id="term-out">[пугодОС v1.0]: Система загружена. Напиши 'help'.</div>
                     <div class="terminal-input-row">
                         <span class="terminal-prefix">шляпа@pugod_os:~$</span>
                         <input type="text" class="terminal-input" id="term-in" onkeydown="handleTerminal(event)">
@@ -301,12 +162,30 @@
         </div>
     </div>
 
+    <!-- Меню Пуск -->
+    <div id="start-menu">
+        <div class="start-menu-item" onclick="openWindow('notepad'); toggleStartMenu();"><span>📝</span> Блокнот</div>
+        <div class="start-menu-item" onclick="openWindow('terminal'); toggleStartMenu();"><span>💻</span> Терминал</div>
+        <div class="start-menu-item" onclick="openWindow('settings'); toggleStartMenu();"><span>⚙️</span> Настройки</div>
+        <hr style="border-color: #8a2be2; margin: 5px 0;">
+        <div class="start-menu-item" onclick="location.reload();"><span>🔄</span> Перезагрузка ОС</div>
+    </div>
+
     <!-- Панель задач -->
     <div id="taskbar">
-        <div class="start-button">🎩 ПУГОД</div>
+        <div class="start-button" onclick="toggleStartMenu(event)">🎩 ПУГОД</div>
     </div>
-        <script>
-        // Логика открытия и закрытия окон
+    <script>
+        function toggleStartMenu(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById('start-menu');
+            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        document.getElementById('desktop').addEventListener('click', () => {
+            document.getElementById('start-menu').style.display = 'none';
+        });
+
         function openWindow(id) {
             const win = document.getElementById('win-' + id);
             win.style.display = 'flex';
@@ -321,69 +200,55 @@
             document.getElementById('win-' + id).style.display = 'none';
         }
 
-        // Автосохранение заметок в локальную память браузера
         function saveNotes() {
-            const text = document.getElementById('notepad-text').value;
-            localStorage.setItem('pugod_notes', text);
+            localStorage.setItem('pugod_notes', document.getElementById('notepad-text').value);
         }
 
-        // Загрузка сохраненных заметок при открытии страницы
         window.onload = function() {
             const savedText = localStorage.getItem('pugod_notes');
-            if(savedText) {
-                document.getElementById('notepad-text').value = savedText;
-            }
+            if(savedText) document.getElementById('notepad-text').value = savedText;
         }
 
-        // Смена фоновых тем
         function changeTheme(themeName) {
             document.body.className = themeName;
         }
 
-        // Логика работы Терминала
         function handleTerminal(e) {
             if (e.key === 'Enter') {
                 const input = document.getElementById('term-in');
                 const output = document.getElementById('term-out');
                 const cmd = input.value.trim().toLowerCase();
-                
                 output.innerHTML += `\nшляпа@pugod_os:~$ ${input.value}`;
 
                 if (cmd === 'help') {
-                    output.innerHTML += `\nДоступные команды:\n  shlyapa — проверить состояние цилиндра\n  bag     — проверить запасы пакетов\n  clear   — очистить консоль`;
+                    output.innerHTML += `\nКоманды:\n  shlyapa — статус цилиндра\n  bag     — запасы пакетов\n  clear   — очистить`;
                 } else if (cmd === 'shlyapa') {
-                    output.innerHTML += `\n[Система]: Шляпа зафиксирована на голове. Уровень харизмы: 1000%.`;
+                    output.innerHTML += `\n[Система]: Цилиндр на месте. Харизма: 1000%.`;
                 } else if (cmd === 'bag') {
-                    output.innerHTML += `\n[Система]: В инвентаре обнаружено 64 стака пакетов. Заквиель пытается их украсть!`;
+                    output.innerHTML += `\n[Система]: В инвентаре 64 стака пакетов. Заквиель близко!`;
                 } else if (cmd === 'clear') {
                     output.innerHTML = `[пугодОС v1.0]: Консоль очищена.`;
                 } else if (cmd !== '') {
-                    output.innerHTML += `\nОшибка: команда '${cmd}' не найдена. Напиши 'help'.`;
+                    output.innerHTML += `\nОшибка: команда '${cmd}' не найдена.`;
                 }
-
                 input.value = '';
                 output.scrollTop = output.scrollHeight; 
             }
         }
 
-        // Универсальная логика перетаскивания (Мышь на ПК + Сенсор/Тач на смартфонах)
+        // Логика перемещения окон (ПК + Смартфоны)
         document.querySelectorAll('.window-header').forEach(header => {
             header.addEventListener('mousedown', startDrag);
             header.addEventListener('touchstart', startDrag, { passive: false });
 
             function startDrag(e) {
                 const win = header.parentElement;
-                
                 document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
                 win.style.zIndex = 100;
 
                 const isTouch = e.type === 'touchstart';
-                const clientX = isTouch ? e.touches[clientX] : e.clientX;
-                const clientY = isTouch ? e.touches[clientY] : e.clientY;
-
-                // Для тач-событий координаты лежат внутри массива touches
-                const actualX = isTouch ? e.touches[0].clientX : clientX;
-                const actualY = isTouch ? e.touches[0].clientY : clientY;
+                const actualX = isTouch ? e.touches[0].clientX : e.clientX;
+                const actualY = isTouch ? e.touches[0].clientY : e.clientY;
 
                 let shiftX = actualX - win.getBoundingClientRect().left;
                 let shiftY = actualY - win.getBoundingClientRect().top;
@@ -392,10 +257,8 @@
 
                 function moveAt(currentX, currentY) {
                     let newTop = currentY - shiftY;
-                    let newLeft = currentX - shiftX;
                     if (newTop < 0) newTop = 0;
-                    
-                    win.style.left = newLeft + 'px';
+                    win.style.left = (currentX - shiftX) + 'px';
                     win.style.top = newTop + 'px';
                 }
 
@@ -409,8 +272,7 @@
                     document.addEventListener('touchmove', onMove, { passive: false });
                     document.addEventListener('touchend', function onTouchEnd() {
                         document.removeEventListener('touchmove', onMove);
-                        document.removeEventListener('touchend', onTouchEnd);
-                    });
+                    }, { once: true });
                 } else {
                     document.addEventListener('mousemove', onMove);
                     document.onmouseup = function() {
@@ -419,10 +281,7 @@
                     };
                 }
             }
-
-            header.ondragstart = function() {
-                return false;
-            };
+            header.ondragstart = () => false;
         });
     </script>
 </body>
